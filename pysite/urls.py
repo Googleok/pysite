@@ -42,10 +42,12 @@ urlpatterns = [
     path('board/page/<int:page>', board_views.boardlist),
     path('board/', board_views.boardlist),
     path('board/writeform', board_views.board_writeform),
+    path('board/writeform/<int:id>', board_views.board_writeform),
     path('board/write', board_views.board_write),
     path('board/view/<int:id>', board_views.board_view),
     path('board/modifyform/<int:id>', board_views.board_modifyform),
     path('board/modify', board_views.board_modify),
+    path('board/delete/<int:id>', board_views.board_delete),
 
     path('admin/', admin.site.urls),
 ]
