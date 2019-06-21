@@ -24,21 +24,23 @@
 				</form>
 				<ul>
 					{% load django_template_maths %}
+					<p style="color: red">전체 게시글 수: {{ guestbooklist | length }} : {{guestbooklist.count | add:1 }}</p>
 					{% for guestbook in guestbooklist %}
 					<li>
-						<table>
+						<table style="border-collapse: collapse; border: 4px; solid #666; background-color:#ddd">
 							<tr>
-								<td>[{{ forloop.revcounter }}]</td>
+								<td >[{{ forloop.revcounter }}]</td>
 								<td>{{guestbook.name}}</td>
-								<td>{{guestbook.regdate}}</td>
+								<td>{{guestbook.regdate | date:'Y-m-d H:i:s'}}</td>
 								<td><a href="/guestbook/deleteform/{{guestbook.id}}">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan=4>
+								<td colspan=4 style="background-color:#fff">
 									{{guestbook.contents|linebreaks}}
 								</td>
 							</tr>
 						</table>
+
 						<br>
 					</li>
 					{% endfor %}
