@@ -5,6 +5,8 @@
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
+<!--{% load django_template_maths %}-->
+{% load mathfilters %}
 			<div id="board">
 				<form id="search_form" action="" method="post">
 					<input type="text" id="kwd" name="kwd" value="">
@@ -21,8 +23,13 @@
 					</tr>				
 					{% for board in boardlist %}
 					<tr>
-						<td>{{ forloop.revcounter }}</td>
-						<td><a href="/board/view/{{ board.id }}">{{ board.title }}</a></td>
+						<td>[{{currentpage|sub:1|mul:10|add:forloop.counter|sub:1|sub:listcount|abs}}]</td>
+						<td  style="text-align:left; padding-left:{{15|mul:board.depth}}px">
+							{% if board.depth != 0 %}
+							<img src="/assets/images/reply.png">
+							{% endif %}
+							<a href="/board/view/{{ board.id }}">{{ board.title }}</a>
+						</td>
 						<td>{{ board.user.name }}</td>
 						<td>{{ board.hit }}</td>
 						<td>{{ board.regdate | date:'Y-m-d H:i:s' }}</td>
@@ -44,6 +51,10 @@
 			</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="/assets/js/paging.js"></script>
+<script>
+	board = {{board}}
+	console.log(board)
+</script>
 <script type="text/javascript">
 	listcount = {{listcount}}
 	currentpage = {{currentpage}}

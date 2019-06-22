@@ -6,9 +6,9 @@ from django.shortcuts import render
 from board.models import Board
 
 
-def boardlist(request, page=1, pagesize=5):
+def boardlist(request, page=1, pagesize=10):
     start = (page - 1) * pagesize
-    boardlist = Board.objects.all().order_by('-regdate')[start:start+pagesize]
+    boardlist = Board.objects.all().order_by('-groupno', 'orderno')[start:start+pagesize]
     listcount = Board.objects.count()
     print(page)
     print(listcount)
@@ -32,16 +32,25 @@ def board_writeform(request, id=0):
 
 
 def board_write(request):
-    parentsNo = request.POST['parentsNo']
+    parents_id = request.POST['parentsNo']
+    print('parents_id = ', parents_id, type(parents_id))
     board = Board()
-    if request.POST['parentsNo'] == "":
+    if parents_id == "":
         value = Board.objects.aggregate(max_groupno=Max('groupno'))
         max_groupno = 0 if value["max_groupno"] is None else value["max_groupno"]
-        board.groupno = max_groupno
+        board.groupno = max_groupno + 1
         board.orderno = 1
         board.depth = 0
     else:
-        board.groupno = parentsNo
+        value = Board.objects.filter(id=parents_id)
+        print('value = ', value, type(value))
+
+        # orderno를 하나씩 밀어주기
+        Board.objects.filter(orderno__gte=value[0].orderno + 1).update(orderno=F('orderno') + 1)
+
+        board.groupno = value[0].groupno
+        board.orderno = value[0].orderno + 1
+        board.depth = value[0].depth + 1
 
     board.user_id = int(request.session['authuser']['id'])
     board.title = request.POST['title']

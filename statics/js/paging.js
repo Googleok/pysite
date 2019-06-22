@@ -2,7 +2,7 @@
 var setPage = function(listCount, currentPage){
 
 		var listCount = listCount;
-		var pageCount = (parseInt( listCount/ 5) + 1);
+		var pageCount = (parseInt( listCount/ 10 ) + 1);
 		var currentPage = currentPage;
 		var endPage = (parseInt(pageCount/5 + 1) * 5);
 		var displayPage = parseInt((currentPage + 4 ) / 5 ) * 5; 

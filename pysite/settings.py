@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'board',
     'django_template_maths',
+    'mathfilters',
     'guestbook',
     'user',
     'main',
