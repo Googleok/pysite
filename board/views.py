@@ -1,4 +1,4 @@
-from django.db.models import F, Max
+from django.db.models import F, Max, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -13,18 +13,34 @@ def boardlist(request, page=1, pagesize=10):
     start = (page - 1) * pagesize
     boardlist = Board.objects.all().order_by('-groupno', 'orderno')[start:start+pagesize]
     listcount = Board.objects.count()
-    print(page)
-    print(listcount)
     data = {
         'boardlist': boardlist,
         'currentpage': page,
         'listcount': listcount
     }
-    print(boardlist)
+    return render(request, 'board/list.html', data)
+
+
+def boardsearchlist(request, page=1, pagesize=10):
+    start = (page - 1) * pagesize
+    kwd = request.POST['kwd']
+    searchlist = Board.objects.filter(Q(title__contains=kwd) | Q(content__contains=kwd)).order_by('-groupno', 'orderno')[start:start+pagesize]
+    listcount = Board.objects.filter(Q(title__contains=kwd) | Q(content__contains=kwd)).count()
+    data = {
+        'boardlist': searchlist,
+        'currentpage': page,
+        'listcount': listcount
+    }
     return render(request, 'board/list.html', data)
 
 
 def board_writeform(request, id=0):
+    try:
+        request.session['authuser']
+    except KeyError as e:
+        print(e)
+        return HttpResponseRedirect('/user/loginform')
+
     if id == 0:
         data = {}
     else:
@@ -36,7 +52,6 @@ def board_writeform(request, id=0):
 
 def board_write(request):
     parents_id = request.POST['parentsNo']
-    print('parents_id = ', parents_id, type(parents_id))
     board = Board()
     if parents_id == "":
         value = Board.objects.aggregate(max_groupno=Max('groupno'))
@@ -46,7 +61,6 @@ def board_write(request):
         board.depth = 0
     else:
         value = Board.objects.filter(id=parents_id)
-        print('value = ', value, type(value))
 
         # orderno를 하나씩 밀어주기
         Board.objects.filter(orderno__gte=value[0].orderno + 1).update(orderno=F('orderno') + 1)
@@ -81,18 +95,13 @@ def board_view(request, id=0):
         ip = get_client_ip(request)
         # ip주소와 게시글 번호로 기록을 조회함
         hits = HitCount.objects.get(ip=ip, post=id)
-        print('1')
     except Exception as e:
         print(e)
         # 처음 게시글을 조회한 경우엔 조회 기록이 없음
         hits = HitCount(ip=ip, post_id=id)
-        print('2')
         qs = Board.objects.filter(id=id)
         qs.update(hit=F('hit')+1)
-        print('3')
-        print(qs)
         board = qs[0]
-        print('4')
         hits.save()
     else:
         # 조회 기록은 있으나, 날짜가 다른 경우
@@ -109,12 +118,19 @@ def board_view(request, id=0):
             print(str(ip) + ' has already hit this post. \n\n')
 
     data = {
-        'board': board
+        'board': board,
+        'page': request.GET['page']
     }
     return render(request, 'board/view.html', data)
 
 
 def board_modifyform(request, id=0):
+    try:
+        request.session['authuser']
+    except KeyError as e:
+        print(e)
+        return HttpResponseRedirect('/user/loginform')
+
     if id == 0:
         return HttpResponseRedirect('/board')
 
@@ -142,13 +158,6 @@ def board_modify(request):
 def board_delete(request, id=0):
     board = Board.objects.filter(id=id)
     board.delete()
-    return HttpResponseRedirect('/board')
-
-
-def board_reply(reequest, id=0):
-    print('board_reply', id)
-    board = Board.objects.filter(id=id)
-    print(board)
     return HttpResponseRedirect('/board')
 
 # def counter_max():

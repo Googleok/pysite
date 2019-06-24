@@ -8,7 +8,8 @@
 <!--{% load django_template_maths %}-->
 {% load mathfilters %}
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="/board/search" method="post">
+					{% csrf_token %}
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
@@ -28,13 +29,13 @@
 							{% if board.depth != 0 %}
 							<img src="/assets/images/reply.png">
 							{% endif %}
-							<a href="/board/view/{{ board.id }}">{{ board.title }}</a>
+							<a href="/board/view/{{ board.id }}?page={{currentpage}}">{{ board.title }}</a>
 						</td>
 						<td>{{ board.user.name }}</td>
 						<td>{{ board.hit }}</td>
 						<td>{{ board.regdate | date:'Y-m-d H:i:s' }}</td>
 						{% if request.session.authuser.id == board.user_id %}
-						<td><a href="/board/delete/{{ board.id }}" class="del">삭제</a></td>
+						<td><a href="/board/delete/{{ board.id }}?page={{curentpage}}" class="del">삭제</a></td>
 						{% endif %}
 					</tr>
 					{% endfor %}

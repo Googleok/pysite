@@ -24,9 +24,13 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/board">글목록</a>
+					<a href="/board/page/{{page}}">글목록</a>
+					{% if request.session.authuser.id == board.user_id %}
 					<a href="/board/modifyform/{{ board.id }}">글수정</a>
+					{% endif %}
+					{% if request.session.authuser %}
 					<a href="/board/writeform/{{ board.id }}">답글달기</a>
+					{% endif %}
 				</div>
 			</div>
 {% endblock %}
