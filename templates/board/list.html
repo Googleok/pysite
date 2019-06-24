@@ -45,9 +45,11 @@
 					</ul>
 				</div>
 				<!-- pager 추가 -->
+				{% if request.session.authuser is not None %}
 				<div class="bottom">
 					<a href="/board/writeform" id="new-book">글쓰기</a>
-				</div>				
+				</div>
+				{% endif %}
 			</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="/assets/js/paging.js"></script>

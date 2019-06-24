@@ -3,7 +3,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from django.utils import timezone
+
 from board.models import Board
+from hitcount.models import HitCount
 
 
 def boardlist(request, page=1, pagesize=10):
@@ -61,18 +64,50 @@ def board_write(request):
     return HttpResponseRedirect('/board')
 
 
+def get_client_ip(request):
+    x_forward_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forward_for:
+        ip = x_forward_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 def board_view(request, id=0):
     if id == 0:
         return HttpResponseRedirect('/board')
+    try:
+        # user ip 주소 가져오기
+        ip = get_client_ip(request)
+        # ip주소와 게시글 번호로 기록을 조회함
+        hits = HitCount.objects.get(ip=ip, post=id)
+        print('1')
+    except Exception as e:
+        print(e)
+        # 처음 게시글을 조회한 경우엔 조회 기록이 없음
+        hits = HitCount(ip=ip, post_id=id)
+        print('2')
+        qs = Board.objects.filter(id=id)
+        qs.update(hit=F('hit')+1)
+        print('3')
+        print(qs)
+        board = qs[0]
+        print('4')
+        hits.save()
+    else:
+        # 조회 기록은 있으나, 날짜가 다른 경우
+        if not hits.date == timezone.now().date():
+            qs = Board.objects.filter(id=id)
+            qs.update(hit=F('hit') + 1)
+            board = qs[0]
+            hits.date = timezone.now()
+            hits.save()
+        # 날짜가 같은 경우
+        else:
+            qs = Board.objects.filter(id=id)
+            board = qs[0]
+            print(str(ip) + ' has already hit this post. \n\n')
 
-    qs = Board.objects.filter(id=id)
-    qs.update(hit=F('hit')+1)
-    board = qs[0]
-
-    # board.hit = board.hit + 1
-    # board.regdate = board.regdate
-    #
-    # board.save()
     data = {
         'board': board
     }
