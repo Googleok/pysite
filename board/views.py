@@ -5,8 +5,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.utils import timezone
 
-from board.models import Board
-from hitcount.models import HitCount
+from board.models import Board, HitCount
 
 
 def boardlist(request, page=1, pagesize=10):
@@ -35,10 +34,7 @@ def boardsearchlist(request, page=1, pagesize=10):
 
 
 def board_writeform(request, id=0):
-    try:
-        request.session['authuser']
-    except KeyError as e:
-        print(e)
+    if 'authuser' not in request.session:
         return HttpResponseRedirect('/user/loginform')
 
     if id == 0:
@@ -125,10 +121,7 @@ def board_view(request, id=0):
 
 
 def board_modifyform(request, id=0):
-    try:
-        request.session['authuser']
-    except KeyError as e:
-        print(e)
+    if 'authuser' not in request.session:
         return HttpResponseRedirect('/user/loginform')
 
     if id == 0:

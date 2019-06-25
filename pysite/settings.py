@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'hitcount',
     'board',
     'django_template_maths',
     'mathfilters',
