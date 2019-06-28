@@ -1,0 +1,106 @@
+{% extends '../base_bs.html' %}
+
+
+{% block csslink %}
+<!--
+
+<link rel="stylesheet" href="/assets/bootstrap/css/bs/loginform.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+
+-->
+
+<link rel="stylesheet" href="/assets/bootstrap/css/bs/loginform.css">
+{% endblock %}
+{% block content %}
+			<div id="user">
+				<form id="login-form" name="loginform" method="post" action="/user/login">
+					{% csrf_token %}
+					<label class="block-label" for="email">이메일</label>
+					<input id="email" name="email" type="text" value="" class="form-control">
+					<label class="block-label" >패스워드</label>
+					<input name="password" type="password" value="" class="form-control">
+					{% if request.GET.result == 'fail' %}
+					<p style="color:red">
+						로그인이 실패 했습니다.
+					</p>
+					{% endif %}
+					<input type="submit" value="로그인">
+				</form>
+			</div>
+
+<!--
+<div class="row">
+    <div class="col l4 offset-l4 m6 offset-m3 s12" id="authCard">
+      <div class="card">
+        <ul class="tabs">
+          <li class="tab col s3 waves-effect"><a href="#registerSection" class="active">Register</a></li>
+          <li class="tab col s3 waves-effect"><a href="#loginSection">Login</a></li>
+        </ul>
+        <div class="card-content">
+          <div class="row">
+            <div id="registerSection" class="col s12 animated slideInUp">
+              <div class="card-title">Register</div>
+              <div class="row">
+                <form action="" name="registerForm" onSubmit="authRegister(event)">
+                  <div class="col s12 padding-0">
+                    <div class="input-field">
+                      <input type="text" id="register_email" class="validate" autocomplete="off" />
+                      <label for="register_email">Enter your Email</label>
+                    </div>
+                  </div>
+                  <div class="col s12 padding-0">
+                    <div class="input-field">
+                      <input type="password" id="register_password" class="validate" />
+                      <label for="register_password">Enter your Password</label>
+                    </div>
+                  </div>
+                  <div class="col s12 padding-0">
+                    <button type="submit" class="btn btn-large green accent-4 center-block">Register Now</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="loginSection" class="col s12 animated slideInUp">
+              <div class="card-title">Login</div>
+              <div class="row">
+                <form action="" name="loginForm" onSubmit="authLogin(event)">
+                  <div class="col s12 padding-0">
+                    <div class="input-field">
+                      <input type="text" id="login_email" class="validate" autocomplete="off" />
+                      <label for="login_email">Enter your Email</label>
+                    </div>
+                  </div>
+                  <div class="col s12 padding-0">
+                    <div class="input-field">
+                      <input type="password" id="login_password" class="validate" />
+                      <label for="login_password">Enter your Password</label>
+                    </div>
+                  </div>
+                  <div class="col s12 padding-0">
+                    <button type="submit" class="btn btn-large green accent-4 center-block">Login Now</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="root" class="row">
+    <div class="col l4 offset-l4 m6 offset-m3 s12">
+      <div class="card">
+        <div class="card-content" id="firebase-token">
+
+        </div>
+      </div>
+    </div>
+  </div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js'></script>
+<script src='https://www.gstatic.com/firebasejs/live/3.0/firebase.js'></script>
+<script src='/assets/bootstrap/js/bs/loginform.js'></script>
+-->
+{% endblock %}

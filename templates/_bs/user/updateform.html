@@ -1,0 +1,44 @@
+{% extends '../base_bs.html' %}
+
+
+{% block csslink %}
+<link href="/assets/css/user.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+			<div id="user">
+
+				<form id="join-form" name="joinForm" method="post" action="/user/update">
+					{% csrf_token %}
+					<label class="block-label" for="name">이름</label>
+					<input id="name" name="name" type="text" value="{{user.name}}">
+
+					<label class="block-label">이메일</label>
+					<h4>{{ user.email }}</h4>
+
+					<label class="block-label">패스워드</label>
+					<input name="password" type="password" value="{{user.password}}">
+
+					<fieldset>
+						<legend>성별</legend>
+						{% if user.gender == 'femail' %}
+						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
+						<label>남</label> <input type="radio" name="gender" value="male">
+						{% else %}
+						<label>여</label> <input type="radio" name="gender" value="female">
+						<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
+						{% endif %}
+					</fieldset>
+					{% if request.GET.result == 'success' %}
+					<p style="color:blue;">
+						업데이트가 완료되었습니다.
+					</p>
+					{% endif %}
+					<input type="submit" value="수정하기">
+
+				</form>
+			</div>
+{% endblock %}
+
+<script !src="">
+
+</script>

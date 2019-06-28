@@ -7,11 +7,11 @@ from user.models import User
 
 
 def joinform(request):
-    return render(request, '_bs/user/joinform.html')
+    return render(request, 'user/joinform.html')
 
 
 def joinsuccess(request):
-    return render(request, '_bs/user/joinsuccess.html')
+    return render(request, 'user/joinsuccess.html')
 
 
 def join(request):
@@ -27,7 +27,7 @@ def join(request):
 
 
 def loginform(request):
-    return render(request, '_bs/user/loginform.html')
+    return render(request, 'user/loginform.html')
 
 
 def login(request):
@@ -53,7 +53,7 @@ def updateform(request):
     user = User.objects.get(id=request.session['authuser']['id'])
     data = {'user': user}
 
-    return render(request, '_bs/user/updateform.html', data)
+    return render(request, 'user/updateform.html', data)
 
 
 def update(request):

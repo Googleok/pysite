@@ -1,0 +1,118 @@
+<!Doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EokSite</title>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/bootstrap/css/bs/maskedmenu.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Oswald:400,600&amp;display=swap'>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+   <![endif]-->
+    {% block csslink %}
+    {% endblock %}
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.4.1.js"
+	    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+	    crossorigin="anonymous"></script>
+<style>
+
+   body, html {
+      height: 100%;
+   }
+</style>
+</head>
+<body>
+<header class="page_header relative">
+          <div class="navbar">
+              <div class="navbar_header">
+                  <a class="navbar_brand" data-logo="Eoksite" href="/">
+                      <span class="brand_logo">
+                          <span>EokSite</span>
+                      </span>
+                  </a>
+                  <button class="navbar_opener">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </button>
+              </div>
+              <div class="navbar_menu">
+                  <nav class="menu" data-reactid="16">
+                      <ul class="menu_list menu_list-main" data-reactid="17">
+                          <li class="menu_item menu_item-big" data-reactid="18">
+                              <a class="menu_link menu_link-anim" data-reactid="19" href="/">
+                                  <span class="link_layer" data-reactid="20" data-text="Main"></span>Main
+                              </a>
+                          </li>
+                          <li class="menu_item menu_item-big" data-reactid="22">
+                              <a class="menu_link menu_link-anim" data-reactid="23" href="/guestbook">
+                                  <span class="link_layer" data-reactid="24" data-text="Guestbook"></span>Guestbook
+                              </a>
+                          </li>
+                          <li class="menu_item menu_item-big" data-reactid="26">
+                              <a class="menu_link menu_link-anim" data-reactid="27" href="/board">
+                                  <span class="link_layer" data-reactid="28" data-text="Board"></span>Board
+                              </a>
+                          </li>
+                      </ul>
+                      <ul class="menu_list menu_list-alter" data-reactid="38">
+                          {% if request.session.authuser is None %}
+                          <li class="menu_item" data-reactid="39">
+                              <a class="menu_link" data-reactid="40" href="/user/loginform">
+                                  <span class="link_layer" data-reactid="41" data-text="Login"></span>Login
+                              </a>
+                          </li>
+                          <li class="menu_item" data-reactid="43">
+                              <a class="menu_link" data-reactid="44" href="/user/joinform">
+                                  <span class="link_layer" data-reactid="45" data-text="Join"></span>Join
+                              </a>
+                          </li>
+                          {% else %}
+                          <li class="menu_item" data-reactid="46">
+                              <a class="menu_link" data-reactid="47" href="/user/updateform">
+                                  <span class="link_layer" data-reactid="48" data-text="User-Info"></span>User-Info
+                              </a>
+                          </li>
+                          <li class="menu_item" data-reactid="49">
+                              <a class="menu_link" data-reactid="50" href="/user/logout">
+                                  <span class="link_layer" data-reactid="51" data-text="Logout"></span>Logout
+                              </a>
+                          </li>
+                          {% endif %}
+                      </ul>
+                  </nav>
+                  <div class="social">
+                      <a class="fa fa-facebook" href="#"></a>
+                      <a class="fa fa-twitter" href="#"></a>
+                      <a class="fa fa-google" href="#"></a>
+                      <a class="fa fa-linkedin" href="#"></a>
+                      <a class="fa fa-youtube" href="#"></a>
+                      <a class="fa fa-instagram" href="#"></a>
+                  </div>
+              </div>
+          {% block content %}
+          {% endblock %}
+          </div>
+      </header>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script>
+    $('.navbar_opener').off('click').on('click', function(){
+        $('.navbar').toggleClass('navbar-opened')
+    })
+</script>
+</body>
+</html>
