@@ -2,40 +2,49 @@
 
 
 {% block csslink %}
-<link href="/assets/css/user.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/bootstrap/css/bs/joinform.css">
 {% endblock %}
 {% block content %}
-			<div id="user">
-
+			<div class="container" id="join-container" style="height: 450px;">
+				<div class="row" id="join-row">
 				<form id="join-form" name="joinForm" method="post" action="/user/update">
 					{% csrf_token %}
-					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="{{user.name}}">
+						<div class="form-group">
+							<label class="block-label" for="name">Name</label>
+							<input class="form-control" id="name" name="name" type="text" value="{{user.name}}">
+						</div>
+						<div class="form-group" id="email-form">
+							<label class="block-label">이메일</label>
+							<h4>{{ user.email }}</h4>
+						</div>
 
-					<label class="block-label">이메일</label>
-					<h4>{{ user.email }}</h4>
+						<div class="form-group">
+							<label class="block-label">Password</label>
+							<input class="form-control" name="password" type="password" value="{{user.password}}">
+						</div>
 
-					<label class="block-label">패스워드</label>
-					<input name="password" type="password" value="{{user.password}}">
-
-					<fieldset>
-						<legend>성별</legend>
-						{% if user.gender == 'femail' %}
-						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-						<label>남</label> <input type="radio" name="gender" value="male">
-						{% else %}
-						<label>여</label> <input type="radio" name="gender" value="female">
-						<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
+						<div class="form-group" id="gender-form">
+							<label class="block-label">Gender</label>
+							<div class="radio" id="gender-radio">
+							{% if user.gender == 'femail' %}
+								<label class="block-label"><input type="radio" name="gender" value="female" checked="checked">Female</label>
+								<label class="block-label"><input type="radio" name="gender" value="male">Male</label>
+							{% else %}
+								<label class="block-label"><input type="radio" name="gender" value="female">Female</label>
+								<label class="block-label"><input type="radio" name="gender" value="male" checked="checked">Male</label>
+							{% endif %}
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-primary" id="join-submit-btn" value="수정하기">
+						</div>
+						{% if request.GET.result == 'success' %}
+						<p style="color:white; font-size: 18px; text-align: center;">
+							업데이트가 완료되었습니다.
+						</p>
 						{% endif %}
-					</fieldset>
-					{% if request.GET.result == 'success' %}
-					<p style="color:blue;">
-						업데이트가 완료되었습니다.
-					</p>
-					{% endif %}
-					<input type="submit" value="수정하기">
-
 				</form>
+				</div>
 			</div>
 {% endblock %}
 

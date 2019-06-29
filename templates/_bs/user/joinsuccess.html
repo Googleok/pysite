@@ -2,14 +2,16 @@
 
 
 {% block csslink %}
-<link href="/assets/css/user.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/bootstrap/css/bs/joinformsuccess.css">
 {% endblock %}
 {% block content %}
-			<div id="user">
-				<p class="jr-success">
-					회원가입을 축하합니다.
-					<br><br>
-					<a href="/user/loginform">로그인하기</a>
-				</p>
+			<div class="container" id="joinsuccess-container">
+				<div class="row" id="joinsuccess-row">
+					<p class="jr-success" style="font-size: 30px; text-align: center; margin-top: 40px;">
+						회원가입을 축하합니다.
+						<br><br>
+						<a href="/user/loginform">로그인하기</a>
+					</p>
+				</div>
 			</div>
 {% endblock %}
