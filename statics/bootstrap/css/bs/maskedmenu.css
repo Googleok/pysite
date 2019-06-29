@@ -198,7 +198,6 @@ header h1:hover {
     font-family: Maison Neue, sans-serif;
     font-weight: 300;
     font-size: 18px;
-    font-size: 1.125rem;
     color: #888;
     text-decoration: none;
     line-height: 1.7777;
@@ -247,7 +246,6 @@ header h1:hover {
     font-family: Oswald, sans-serif;
     font-weight: 700;
     font-size: 32px;
-    font-size: 2rem;
     text-transform: uppercase;
     line-height: 1.22;
     color: #fff

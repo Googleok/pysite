@@ -1,2 +1,20 @@
 @CHARSET "UTF-8";
-@import "../bootstrap/css/";
+
+#login-container{
+    border: 3px solid #999;
+    width: 400px;
+    height: 300px;
+    margin: 200px auto;
+    margin-bottom: 0;  margin
+}
+
+#login-row{
+    width: 300px;
+    margin: 30px auto;
+    margin-bottom: 0;
+}
+
+#submit-btn{
+    width:100%;
+    margin-top:20px;
+}

@@ -13,21 +13,31 @@
 <link rel="stylesheet" href="/assets/bootstrap/css/bs/loginform.css">
 {% endblock %}
 {% block content %}
-			<div id="user">
+				<div class="container" id="login-container">
+				<div class="row" id="login-row">
 				<form id="login-form" name="loginform" method="post" action="/user/login">
 					{% csrf_token %}
-					<label class="block-label" for="email">이메일</label>
-					<input id="email" name="email" type="text" value="" class="form-control">
-					<label class="block-label" >패스워드</label>
-					<input name="password" type="password" value="" class="form-control">
+					<div class="form-group">
+					<label for="email">Email</label>
+						<input type="text" class="form-control" id="email" name="email" value="">
+					</div>
+
+					<div class="form-group">
+					<label for="password">Password</label>
+						<input type="password" class="form-control" id="password" name="password" value="">
+					</div>
+
 					{% if request.GET.result == 'fail' %}
 					<p style="color:red">
 						로그인이 실패 했습니다.
 					</p>
 					{% endif %}
-					<input type="submit" value="로그인">
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" id="submit-btn" value="Login">
+					</div>
 				</form>
-			</div>
+				</div>
+				</div>
 
 <!--
 <div class="row">
