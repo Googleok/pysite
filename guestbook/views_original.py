@@ -9,7 +9,7 @@ def guestbooklist(request):
     guestbooklist = Guestbook.objects.all().order_by('-id')
     data = {'guestbooklist': guestbooklist}
 
-    return render(request, '_bs/guestbook/list.html', data)
+    return render(request, 'guestbook/list.html', data)
 
 
 def insert(request):
@@ -25,7 +25,7 @@ def insert(request):
 
 def deleteform(requst, id=0):
     data = {'id': id}
-    return render(requst, '_bs/guestbook/deleteform.html', data)
+    return render(requst, 'guestbook/deleteform.html', data)
 
 
 def delete(requst, id=0):

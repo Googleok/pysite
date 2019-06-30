@@ -1,0 +1,19 @@
+{% extends '../base_bs.html' %}
+
+{% block csslink %}
+<link href="/assets/bootstrap/css/bs/guestbook.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+			<div id="guestbook" class="delete-form">
+				<form method="post" action="/guestbook/delete/{{id}}">
+					{% csrf_token %}
+					<input type="hidden" name="a" value="delete">
+					<input type='hidden' name="no" value="{{id}}">
+					<label>비밀번호</label>
+					<input type="password" name="password">
+					<input type="submit" value="확인">
+				</form>
+				<a href="/guestbook">방명록 리스트</a>
+			</div>
+{% endblock %}

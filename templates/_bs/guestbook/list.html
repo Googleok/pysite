@@ -1,0 +1,91 @@
+{% extends '../base_bs.html' %}
+
+{% block csslink %}
+<link href="/assets/bootstrap/css/bs/guestbook.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+			<div class="container" id="guestbook-container">
+				<div class="row" id="guestbook-row">
+					<form action="/guestbook/insert" method="post">
+						{% csrf_token %}
+						<table class="table">
+							<tr class="form-group">
+								<td><input class="form-control" type="text" name="name" placeholder="Name"></td>
+								<td><input class="form-control" type="password" name="password" placeholder="Password"></td>
+							</tr>
+							<tr class="form-group">
+								<td colspan=4><textarea class="form-control" name="contents" id="content" ></textarea></td>
+							</tr>
+							<tr class="form-group">
+								<td colspan=4 align=right><input class="btn btn-primary" type="submit" VALUE=" OK " style="width: 70px;"></td>
+							</tr>
+						</table>
+					</form>
+						{% load django_template_maths %}
+							<table class="table table-bordered" >
+							{% for guestbook in guestbooklist %}
+								<tr class="header">
+									<td colspan="3">{{guestbook.name}}</td>
+								</tr>
+								<tr style="color: #6a6c6f;">
+									<td >[{{ forloop.revcounter }}]</td>
+									<td>{{guestbook.regdate | date:'Y-m-d H:i:s'}}</td>
+									<!--
+									<td id="del-btn-td"><a href="/guestbook/deleteform/{{guestbook.id}}" class="btn btn-danger">Del</a></td>
+									-->
+									<td id="del-btn-td"><a href="#del-dialog" role="button" class="btn btn-danger" data-toggle="modal">Del</a></td>
+
+									<div class="modal fade" id="del-dialog" role="dialog" aria-labelledby="dlogLabel" aria-hidden="true">
+										<div class="modal-dialog" style="width: 400px;">
+											<div class="modal-content">
+												<form method="post" action="/guestbook/delete/{{guestbook.id}}">
+												<div class="modal-header">
+													<h4 class="modal-title" id="dlogLabel" style="color: #6a6c6f;">
+														Delete-Dialog
+													</h4>
+												</div>
+
+												<div class="modal-body">
+													{% csrf_token %}
+													<input type='hidden' name="no" value="{{guestbook.id}}">
+													<label style="color: 6a6c6f;">Password</label>
+													<input class="form-control" type="password" name="password">
+												</div>
+
+												<div class="modal-footer">
+													<input class="btn btn-primary" type="submit" value=" OK ">
+													<a href="#" role="button" class="btn btn-danger" data-dismiss="modal">Close</a>
+												</div>
+												</form>
+											</div>
+										</div>
+									</div>
+
+
+								</tr>
+								<tr>
+									<td colspan=3 style="color: #6a6c6f;">
+										{{guestbook.contents|linebreaks}}
+									</td>
+								</tr>
+							{% endfor %}
+							</table>
+							<br>
+				</div>
+			</div>
+<script>
+$(document).ready(function() {
+  //Fixing jQuery Click Events for the iPad
+  var ua = navigator.userAgent,
+    event = (ua.match(/iPad/i)) ? "touchstart" : "click";
+  if ($('.table-bordered').length > 0) {
+    $('.table-bordered .header').on(event, function() {
+      $(this).toggleClass("active", "").nextUntil('.header').css('display', function(i, v) {
+        return this.style.display === 'table-row' ? 'none' : 'table-row';
+      });
+    });
+  }
+})
+</script>
+{% endblock %}
